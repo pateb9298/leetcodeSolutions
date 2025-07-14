@@ -5,6 +5,7 @@ class Solution:
     def findCheapestPrice(self, n: int, flights: list[list[int]], src: int, dst: int, k: int) -> int:
         # Step 1: Build the graph
         graph = defaultdict(list)
+        visited = dict()
         for u, v, price in flights:
             graph[u].append((v, price))
 
@@ -18,6 +19,10 @@ class Solution:
             # If destination is reached within allowed stops
             if node == dst:
                 return cost
+
+            if node in visited and visited[node] <= stops:
+                continue
+            visited[node] = stops
 
             # If we can still take more stops
             if stops <= k:
